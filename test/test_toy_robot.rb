@@ -52,13 +52,13 @@ describe "Toy Robot" do
     robot.move
     position = robot.report
 
-    expect(position).must_equal("0, 0, NORTH")
+    expect(position).must_equal("0, 2, NORTH")
 
     robot.place 0, 1, "SOUTH"
     robot.move
     position = robot.report
 
-    expect(position).must_equal("0, 2, SOUTH")
+    expect(position).must_equal("0, 0, SOUTH")
 
     robot.place 1, 1, "WEST"
     robot.move
@@ -66,15 +66,20 @@ describe "Toy Robot" do
 
     expect(position).must_equal("0, 1, WEST")
 
+    robot.place 1, 1, "EAST"
+    robot.move
+    position = robot.report
+
+    expect(position).must_equal("2, 1, EAST")
   end
 
   it "does not #move if at edge" do
     robot = ToyRobot.new
-    robot.place 0, 0, "NORTH"
+    robot.place 0, 4, "NORTH"
     robot.move
     position = robot.report
 
-    expect(position).must_equal("0, 0, NORTH")
+    expect(position).must_equal("0, 4, NORTH")
 
     robot.place 0, 0, "WEST"
     robot.move
@@ -88,10 +93,10 @@ describe "Toy Robot" do
 
     expect(position).must_equal("4, 0, EAST")
 
-    robot.place 0, 4, "SOUTH"
+    robot.place 0, 0, "SOUTH"
     robot.move
     position = robot.report
 
-    expect(position).must_equal("0, 4, SOUTH")
+    expect(position).must_equal("0, 0, SOUTH")
   end
 end

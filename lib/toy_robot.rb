@@ -22,11 +22,11 @@ class ToyRobot
 
     case @direction
     when "NORTH"
-      @y_coordinate = @y_coordinate.pred
+      @y_coordinate = @y_coordinate.next
     when "EAST"
       @x_coordinate = @x_coordinate.next
     when "SOUTH"
-      @y_coordinate = @y_coordinate.next
+      @y_coordinate = @y_coordinate.pred
     when "WEST"
       @x_coordinate = @x_coordinate.pred
     else
@@ -46,11 +46,11 @@ class ToyRobot
   def valid_move?
     case @direction
     when "NORTH"
-      return false if @y_coordinate == 0
+      return false if @y_coordinate == MAX_Y
     when "EAST"
       return false if @x_coordinate == MAX_X
     when "SOUTH"
-      return false if @y_coordinate == MAX_Y
+      return false if @y_coordinate == 0
     when "WEST"
       return false if @x_coordinate == 0
     else
