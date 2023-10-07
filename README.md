@@ -29,13 +29,3 @@
 
 - The toy robot must not fall off the table during movement. This also includes the initial placement of the toy robot
 - Any move that would cause the robot to fall must be ignored
-- Example Input and Output:
-  o PLACE 0,0,NORTH o MOVE
-  o REPORT
-  ▪
-  o LEFT
-  o REPORT
-  ▪
-  o MOVE o MOVE o LEFT
-  o MOVE o REPORT
-  ▪
