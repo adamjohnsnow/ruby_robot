@@ -29,3 +29,11 @@
 
 - The toy robot must not fall off the table during movement. This also includes the initial placement of the toy robot
 - Any move that would cause the robot to fall must be ignored
+
+### To run
+
+`ruby app.rb`
+
+### To run tests
+
+`rake`
