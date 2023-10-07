@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-describe "Toy Robot" do
+describe "Toy Robot Placement" do
   it "does not have coordinates or direction on initialise" do
     robot = ToyRobot.new
     position = robot.report
@@ -25,7 +25,7 @@ describe "Toy Robot" do
 
   it "validates placement" do
     robot = ToyRobot.new
-    robot.place -1, 0, "NORTH"
+    robot.place(-1, 0, "NORTH")
     position = robot.report
 
     refute position
@@ -45,7 +45,9 @@ describe "Toy Robot" do
 
     refute position
   end
-  
+end
+
+describe "Toy Robot Movement" do
   it "can #move" do
     robot = ToyRobot.new
     robot.place 0, 1, "NORTH"
@@ -98,5 +100,55 @@ describe "Toy Robot" do
     position = robot.report
 
     expect(position).must_equal("0, 0, SOUTH")
+  end
+end
+
+describe "Toy Robot Turning" do
+  it "turns left" do
+    robot = ToyRobot.new
+    robot.place 0, 4, "NORTH"
+    robot.left
+    position = robot.report
+
+    expect(position).must_equal("0, 4, WEST")
+
+    robot.left
+    position = robot.report
+
+    expect(position).must_equal("0, 4, SOUTH")
+
+    robot.left
+    position = robot.report
+
+    expect(position).must_equal("0, 4, EAST")
+
+    robot.left
+    position = robot.report
+
+    expect(position).must_equal("0, 4, NORTH")
+  end
+
+  it "turns right" do
+    robot = ToyRobot.new
+    robot.place 0, 4, "NORTH"
+    robot.right
+    position = robot.report
+
+    expect(position).must_equal("0, 4, EAST")
+
+    robot.right
+    position = robot.report
+
+    expect(position).must_equal("0, 4, SOUTH")
+
+    robot.right
+    position = robot.report
+
+    expect(position).must_equal("0, 4, WEST")
+
+    robot.right
+    position = robot.report
+
+    expect(position).must_equal("0, 4, NORTH")
   end
 end

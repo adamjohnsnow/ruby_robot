@@ -1,20 +1,22 @@
 # frozen_string_literal: true
 
-DIRECTIONS = [ "NORTH", "EAST", "SOUTH", "WEST" ]
+DIRECTIONS = %w[NORTH EAST SOUTH WEST].freeze
 MAX_X = 4
 MAX_Y = 4
 
 class ToyRobot
-  def place x, y, direction
-    return unless valid_placement? x, y, direction
-    @x_coordinate = x
-    @y_coordinate = y
+  def place(x_start, y_start, direction)
+    return unless valid_placement? x_start, y_start, direction
+
+    @x_coordinate = x_start
+    @y_coordinate = y_start
     @direction = direction
   end
 
   def report
     return unless @x_coordinate && @y_coordinate && @direction
-    return "#{@x_coordinate}, #{@y_coordinate}, #{@direction}"
+
+    "#{@x_coordinate}, #{@y_coordinate}, #{@direction}"
   end
 
   def move
@@ -29,18 +31,39 @@ class ToyRobot
       @y_coordinate = @y_coordinate.pred
     when "WEST"
       @x_coordinate = @x_coordinate.pred
+    end
+  end
+
+  def left
+    return unless @direction
+
+    if @direction == "NORTH"
+      @direction = "WEST"
     else
-      return
+      current_index = DIRECTIONS.find_index(@direction)
+      @direction = DIRECTIONS[current_index - 1]
+    end
+  end
+
+  def right
+    return unless @direction
+
+    if @direction == "WEST"
+      @direction = "NORTH"
+    else
+      current_index = DIRECTIONS.find_index(@direction)
+      @direction = DIRECTIONS[current_index + 1]
     end
   end
 
   private
 
-  def valid_placement? x, y, direction
-    return false unless x.is_a?(Integer) && x.between?(0, MAX_X)
-    return false unless y.is_a?(Integer) && y.between?(0, MAX_Y)
+  def valid_placement?(x_start, y_start, direction)
+    return false unless x_start.is_a?(Integer) && x_start.between?(0, MAX_X)
+    return false unless y_start.is_a?(Integer) && y_start.between?(0, MAX_Y)
     return false unless DIRECTIONS.include? direction
-    return true
+
+    true
   end
 
   def valid_move?
@@ -50,13 +73,12 @@ class ToyRobot
     when "EAST"
       return false if @x_coordinate == MAX_X
     when "SOUTH"
-      return false if @y_coordinate == 0
+      return false if @y_coordinate.zero?
     when "WEST"
-      return false if @x_coordinate == 0
+      return false if @x_coordinate.zero?
     else
       return false
     end
-
-    return true
+    true
   end
 end
