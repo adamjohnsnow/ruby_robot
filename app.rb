@@ -8,17 +8,23 @@ robot = ToyRobot.new
 
 instructions = CSV.read("./files/instructions.csv", headers: false)
 
+VALID_COMMANDS = %i[place move left right report].freeze
+
 instructions.each do |line|
-  case line[0]
-  when "PLACE"
+  command = line[0].downcase.to_sym
+
+  next unless VALID_COMMANDS.include?(command)
+
+  case line[0].downcase.to_sym
+  when :place
     robot.place(line[1].to_i, line[2].to_i, line[3])
-  when "REPORT"
+  when :report
     p robot.report
-  when "MOVE"
+  when :move
     robot.move
-  when "LEFT"
+  when :left
     robot.left
-  when "RIGHT"
+  when :right
     robot.right
   end
 end

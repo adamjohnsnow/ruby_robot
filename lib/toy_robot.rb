@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
-DIRECTIONS = %w[NORTH EAST SOUTH WEST].freeze
+DIRECTIONS = %i[north east south west].freeze
 MAX_X = 4
 MAX_Y = 4
 
 class ToyRobot
-  def place(x_start, y_start, direction)
+  def place(x_start, y_start, facing)
+    direction = facing.downcase.to_sym
+
     return unless valid_placement? x_start, y_start, direction
 
     @x_coordinate = x_start
@@ -16,20 +18,20 @@ class ToyRobot
   def report
     return unless @x_coordinate && @y_coordinate && @direction
 
-    "#{@x_coordinate}, #{@y_coordinate}, #{@direction}"
+    "#{@x_coordinate}, #{@y_coordinate}, #{@direction.to_s.upcase}"
   end
 
   def move
     return unless valid_move?
 
     case @direction
-    when "NORTH"
+    when :north
       @y_coordinate = @y_coordinate.next
-    when "EAST"
+    when :east
       @x_coordinate = @x_coordinate.next
-    when "SOUTH"
+    when :south
       @y_coordinate = @y_coordinate.pred
-    when "WEST"
+    when :west
       @x_coordinate = @x_coordinate.pred
     end
   end
@@ -37,8 +39,8 @@ class ToyRobot
   def left
     return unless @direction
 
-    if @direction == "NORTH"
-      @direction = "WEST"
+    if @direction == :north
+      @direction = :west
     else
       current_index = DIRECTIONS.find_index(@direction)
       @direction = DIRECTIONS[current_index - 1]
@@ -48,8 +50,8 @@ class ToyRobot
   def right
     return unless @direction
 
-    if @direction == "WEST"
-      @direction = "NORTH"
+    if @direction == :west
+      @direction = :north
     else
       current_index = DIRECTIONS.find_index(@direction)
       @direction = DIRECTIONS[current_index + 1]
@@ -68,13 +70,13 @@ class ToyRobot
 
   def valid_move?
     case @direction
-    when "NORTH"
+    when :north
       return false if @y_coordinate == MAX_Y
-    when "EAST"
+    when :east
       return false if @x_coordinate == MAX_X
-    when "SOUTH"
+    when :south
       return false if @y_coordinate.zero?
-    when "WEST"
+    when :west
       return false if @x_coordinate.zero?
     else
       return false
