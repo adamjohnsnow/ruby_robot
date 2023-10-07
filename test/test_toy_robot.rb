@@ -45,4 +45,53 @@ describe "Toy Robot" do
 
     refute position
   end
+  
+  it "can #move" do
+    robot = ToyRobot.new
+    robot.place 0, 1, "NORTH"
+    robot.move
+    position = robot.report
+
+    expect(position).must_equal("0, 0, NORTH")
+
+    robot.place 0, 1, "SOUTH"
+    robot.move
+    position = robot.report
+
+    expect(position).must_equal("0, 2, SOUTH")
+
+    robot.place 1, 1, "WEST"
+    robot.move
+    position = robot.report
+
+    expect(position).must_equal("0, 1, WEST")
+
+  end
+
+  it "does not #move if at edge" do
+    robot = ToyRobot.new
+    robot.place 0, 0, "NORTH"
+    robot.move
+    position = robot.report
+
+    expect(position).must_equal("0, 0, NORTH")
+
+    robot.place 0, 0, "WEST"
+    robot.move
+    position = robot.report
+
+    expect(position).must_equal("0, 0, WEST")
+
+    robot.place 4, 0, "EAST"
+    robot.move
+    position = robot.report
+
+    expect(position).must_equal("4, 0, EAST")
+
+    robot.place 0, 4, "SOUTH"
+    robot.move
+    position = robot.report
+
+    expect(position).must_equal("0, 4, SOUTH")
+  end
 end
